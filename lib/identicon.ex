@@ -4,19 +4,32 @@ defmodule Identicon do
   """
 
   @moduledoc """
-    Accempts an input and passes it to the hash_input function
+    Accepts an input and passes it through the sequence of functions to generate and identicon based on the user input.
   """
   def main(input) do
     input
     |> hash_input
+    |> pick_color
   end
 
   @moduledoc """
-    Generates a unique list of numbers based on an input
+    Accepts the hex struct and returns the first three indices as an RGB value.
+  """
+  def pick_color(image) do
+    %Identicon.Image{hex: hex_list} = image
+    [r, g, b | _tail] = hex_list
+
+    [r, g, b]
+  end
+
+  @moduledoc """
+    Generates a unique list of numbers based on an input, and calls Indenticon.Image to return it as a struct.
   """
   def hash_input(input) do
-    :crypto.hash(:md5, input)
+    hex = :crypto.hash(:md5, input)
     |> :binary.bin_to_list
+
+    %Identicon.Image{hex: hex}
   end
 end
 
