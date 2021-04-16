@@ -10,16 +10,31 @@ defmodule Identicon do
     input
     |> hash_input
     |> pick_color
+    |> build_grid
   end
 
   @moduledoc """
-    Accepts the hex struct and returns the first three indices as an RGB value.
+    Builds the image grid and maps it with a reference to the helper function mirror_row
   """
-  def pick_color(image) do
-    %Identicon.Image{hex: hex_list} = image
-    [r, g, b | _tail] = hex_list
+  def build_grid(%Identicon.Image{hex: hex} = image) do
+    hex
+    |> Enum.chunk(3)
+    |> Enum.map(&mirror_row/1)
+  end
 
-    [r, g, b]
+  @moduledoc """
+    Accepts the RGB value for each row and expands it into a palindrome
+  """
+  def mirror_row(row) do
+    [first, second | _tail] = row
+    row ++ [second, first]
+  end
+
+  @moduledoc """
+    Accepts the hex struct and returns the first three indices as an RGB value, and the rest of the struct as a tail.
+  """
+  def pick_color(%Identicon.Image{hex: [r, g, b | _tail]} = image) do
+    %Identicon.Image{image | color: {r, g, b}}
   end
 
   @moduledoc """
