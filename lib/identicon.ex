@@ -1,18 +1,23 @@
 defmodule Identicon do
   @moduledoc """
-  Documentation for `Identicon`.
+    Provides methods for creating a unique identicon based on the user's name.
   """
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Identicon.hello()
-      :world
-
+  @moduledoc """
+    Accempts an input and passes it to the hash_input function
   """
-  def hello do
-    :world
+  def main(input) do
+    input
+    |> hash_input
+  end
+
+  @moduledoc """
+    Generates a unique list of numbers based on an input
+  """
+  def hash_input(input) do
+    :crypto.hash(:md5, input)
+    |> :binary.bin_to_list
   end
 end
+
+# iex -S mix to start the shell
