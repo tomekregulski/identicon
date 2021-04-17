@@ -3,7 +3,7 @@ defmodule Identicon do
     Provides methods for creating a unique identicon based on the user's name.
   """
 
-  @moduledoc """
+  @doc """
     Accepts an input and passes it through the sequence of functions to generate and identicon based on the user input.
   """
   def main(input) do
@@ -47,7 +47,7 @@ defmodule Identicon do
   end
 
 
-  @moduledoc """
+  @doc """
     Filter out odd squares so they do not get colored.
   """
   def filter_odd_squares(%Identicon.Image{grid: grid} = image) do
@@ -58,7 +58,7 @@ defmodule Identicon do
     %Identicon.Image{image | grid: grid}
   end
 
-  @moduledoc """
+  @doc """
     Builds the image grid and maps it with a reference to the helper function mirror_row
   """
   def build_grid(%Identicon.Image{hex: hex} = image) do
@@ -72,7 +72,7 @@ defmodule Identicon do
     %Identicon.Image{image | grid: grid}
   end
 
-  @moduledoc """
+  @doc """
     Accepts the RGB value for each row and expands it into a palindrome
   """
   def mirror_row(row) do
@@ -80,14 +80,14 @@ defmodule Identicon do
     row ++ [second, first]
   end
 
-  @moduledoc """
+  @doc """
     Accepts the hex struct and returns the first three indices as an RGB value, and the rest of the struct as a tail.
   """
   def pick_color(%Identicon.Image{hex: [r, g, b | _tail]} = image) do
     %Identicon.Image{image | color: {r, g, b}}
   end
 
-  @moduledoc """
+  @doc """
     Generates a unique list of numbers based on an input, and calls Indenticon.Image to return it as a struct.
   """
   def hash_input(input) do
