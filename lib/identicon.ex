@@ -1,10 +1,10 @@
 defmodule Identicon do
   @moduledoc """
-    Provides methods for creating a unique identicon based on the user's name.
+    Provides methods for creating a unique identicon based on the user's input.
   """
 
   @doc """
-    Accepts an input and passes it through the sequence of functions to generate and identicon based on the user input.
+    Accepts an input and passes it through the sequence of functions to generate the identicon.
   """
   def main(input) do
     input
@@ -17,11 +17,16 @@ defmodule Identicon do
     |> save_image(input)
   end
 
-
+  @doc """
+    Saves the Identicon to a png file that is named after the user's input.
+  """
   def save_image(image, input) do
     File.write("#{input}.png", image)
   end
 
+  @doc """
+    Renders the identicon.
+  """
   def draw_image(%Identicon.Image{color: color, pixel_map: pixel_map}) do
     image = :egd.create(250, 250)
     fill = :egd.color(color)
@@ -30,9 +35,12 @@ defmodule Identicon do
       :egd.filledRectangle(image, start, stop, fill)
     end
 
-    :edg.render(image)
+    :egd.render(image)
   end
 
+  @doc """
+    Builds the pixel map, over which the Identicon will be rendered
+  """
   def build_pixel_map(%Identicon.Image{grid: grid} = image) do
     pixel_map = Enum.map grid, fn({_code, index}) ->
       horizontal = rem(index, 5) * 50
@@ -48,7 +56,7 @@ defmodule Identicon do
 
 
   @doc """
-    Filter out odd squares so they do not get colored.
+    Filters out odd squares so they do not get colored.
   """
   def filter_odd_squares(%Identicon.Image{grid: grid} = image) do
     grid = Enum.filter grid, fn({code, _index}) -> 
