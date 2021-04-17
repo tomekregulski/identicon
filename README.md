@@ -14,6 +14,8 @@ Then, open the directory in your terminal and install the necessary dependencies
 mix deps.get
 ```
 
+Please note that the :egd dependency actually clones another github repo into this repository. This would only be an issue if you make any changes and subsequently attempt to push them. In this case, you will need to remove the egd folder from ./deps.
+
 Once the installations have completed, you are ready to run the app. Initiate the shell by running:
 
 ```
